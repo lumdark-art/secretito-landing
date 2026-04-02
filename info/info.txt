@@ -1,0 +1,28 @@
+Nombre: Secretito
+Slogan: Cocina casera, sabores de siempre
+Especialidades: Parrilla al Carbón · Pastas Caseras · Mariscos
+Desde: 2004
+
+Dirección: Dorrego 2720
+Instagram: @parrisecretito
+Servicio de mesa: $4.000 por persona
+Horarios: Martes a sábados 12:00 a 15:00 y 19:30 a 20:00
+
+Colores principales:
+- Azul marino oscuro: #1a3a5c
+- Azul claro / celeste: #a8c4d8
+- Crema / fondo: #f0ebe0
+
+Estilo visual: Clásico argentino, elegante pero accesible, tipografía bold serif para títulos, franjas celestes.
+
+Descripción del lugar:
+Secretito es un restaurante con más de 20 años de historia, especializado en parrilla al carbón, pastas caseras y mariscos frescos. Un lugar donde la cocina tradicional argentina se combina con el sabor del mar. Ideal para compartir en familia o con amigos.
+
+Secciones sugeridas para la landing:
+1. Hero - Logo + tagline + foto de fondo
+2. Nosotros - Historia desde 2004, cocina casera
+3. Nuestras especialidades - Parrilla, Mariscos, Pastas (3 bloques)
+4. Menú destacado - Recomendados de la casa
+5. Pedidos con anticipación - Costillar y vacío entero
+6. Ubicación y horarios
+7. Contacto e Instagram

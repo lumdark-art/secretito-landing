@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secretito — Cocina Casera, Sabores de Siempre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul: #4a90b8;
+      --azul-dark: #1e5f8a;
+      --celeste: #87CEEB;
+      --crema: #f0ebe0;
+      --crema-dark: #e2d9c5;
+      --oro: #c9a96e;
+      --texto: #2c2c2c;
+      --blanco: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--crema);
+      color: var(--texto);
+      line-height: 1.65;
+    }
+
+    /* ── ANIMACIONES ── */
+    .fade-up, .fade-left, .fade-right {
+      opacity: 0;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up    { transform: translateY(32px); }
+    .fade-left  { transform: translateX(-32px); }
+    .fade-right { transform: translateX(32px); }
+    .fade-up.visible, .fade-left.visible, .fade-right.visible {
+      opacity: 1; transform: translate(0);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      transition: background 0.35s, box-shadow 0.35s;
+    }
+    nav.scrolled {
+      background: var(--azul);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.35);
+    }
+    .nav-logo {
+      display: inline-flex; align-items: center; text-decoration: none;
+    }
+    .nav-logo img {
+      height: 50px; width: auto; display: block;
+    }
+    @media (max-width: 480px) {
+      .nav-logo img { height: 38px; }
+    }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative; height: 100vh; min-height: 600px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; overflow: hidden; padding: 2rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('fotos/SaveClip.App_587610830_18543594856016565_50024332149487320_n.jpg') center/cover no-repeat;
+      transition: transform 10s ease;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(26,58,92,0.78) 0%,
+        rgba(26,58,92,0.50) 45%,
+        rgba(26,58,92,0.82) 100%
+      );
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero-badge {
+      display: inline-block;
+      background: var(--celeste); color: var(--azul);
+      font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+      font-weight: 700; padding: 0.4rem 1.3rem; margin-bottom: 1.5rem;
+      font-family: Arial, sans-serif;
+    }
+    .hero-title {
+      font-size: clamp(3.2rem, 10vw, 6.5rem);
+      color: #fff; letter-spacing: 8px; text-transform: uppercase;
+      text-shadow: 0 3px 24px rgba(0,0,0,0.5); margin-bottom: 0.6rem;
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--celeste); font-style: italic;
+      letter-spacing: 1px; margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: inline-block;
+      border: 2px solid var(--celeste); color: #fff;
+      padding: 0.9rem 2.6rem; text-decoration: none;
+      font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
+      font-family: Arial, sans-serif;
+      transition: background 0.3s, color 0.3s;
+    }
+    .hero-cta:hover { background: var(--celeste); color: var(--azul); }
+    .hero-arrow {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      color: rgba(255,255,255,0.5); font-size: 0.65rem; letter-spacing: 2px;
+      text-transform: uppercase; font-family: Arial, sans-serif;
+      animation: arrowBounce 2.2s ease-in-out infinite;
+    }
+    .hero-arrow::after {
+      content: ''; width: 1px; height: 38px;
+      background: rgba(255,255,255,0.35);
+    }
+    @keyframes arrowBounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── SHARED ── */
+    section { padding: 5.5rem 1.5rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--azul); text-align: center; margin-bottom: 0.5rem;
+    }
+    .section-title.light { color: #fff; }
+    .divider {
+      width: 55px; height: 3px; background: var(--celeste);
+      margin: 0.75rem auto 0.5rem; border-radius: 2px;
+    }
+    .divider.gold { background: var(--oro); }
+    .section-sub {
+      text-align: center; font-style: italic;
+      font-size: 1rem; margin-bottom: 3.5rem;
+      color: var(--azul); opacity: 0.7;
+    }
+    .section-sub.light { color: var(--celeste); opacity: 1; }
+
+    /* ── HISTORIA ── */
+    #historia { background: var(--crema); }
+    .historia-grid {
+      display: grid; grid-template-columns: 1fr; gap: 3rem;
+      align-items: center; margin-top: 1rem;
+    }
+    @media (min-width: 768px) {
+      .historia-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .historia-year {
+      font-size: 5rem; font-weight: 700; color: var(--azul);
+      opacity: 0.12; line-height: 1; margin-bottom: -1rem;
+    }
+    .historia-text p { font-size: 1.05rem; color: #3e3e3e; margin-bottom: 1.1rem; }
+    .stats {
+      display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;
+    }
+    .stat strong {
+      display: block; font-size: 2.2rem;
+      color: var(--azul); font-weight: 700; line-height: 1;
+    }
+    .stat span {
+      font-size: 0.78rem; color: #777;
+      font-family: Arial, sans-serif; letter-spacing: 0.5px;
+    }
+    .historia-img { position: relative; }
+    .historia-img::before {
+      content: ''; position: absolute;
+      top: -13px; left: -13px; right: 13px; bottom: 13px;
+      border: 3px solid var(--celeste); z-index: 0;
+    }
+    .historia-img img {
+      position: relative; z-index: 1;
+      width: 100%; height: 430px; object-fit: cover; display: block;
+    }
+
+    /* ── ESPECIALIDADES ── */
+    #especialidades { background: var(--azul); }
+    .espec-grid {
+      display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .espec-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .espec-card { position: relative; overflow: hidden; }
+    .espec-card img {
+      width: 100%; height: 380px; object-fit: cover;
+      display: block; transition: transform 0.65s ease;
+    }
+    .espec-card:hover img { transform: scale(1.07); }
+    .espec-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,58,92,0.93) 0%, rgba(26,58,92,0.28) 55%, transparent 100%);
+      display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 2rem;
+    }
+    .espec-icon { font-size: 2.2rem; margin-bottom: 0.6rem; }
+    .espec-overlay h3 { color: #fff; font-size: 1.55rem; margin-bottom: 0.4rem; }
+    .espec-overlay p { color: var(--celeste); font-size: 0.88rem; font-style: italic; line-height: 1.45; }
+
+    /* ── MENÚ ── */
+    #menu { background: var(--crema-dark); }
+    .menu-tabs {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      justify-content: center; margin-bottom: 2.5rem;
+    }
+    .tab-btn {
+      background: transparent; border: 2px solid var(--azul);
+      color: var(--azul); padding: 0.5rem 1.2rem;
+      font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; font-family: Arial, sans-serif; font-weight: 700;
+      transition: background 0.2s, color 0.2s;
+    }
+    .tab-btn.active, .tab-btn:hover { background: var(--azul); color: #fff; }
+    .menu-panel { display: none; }
+    .menu-panel.active {
+      display: block;
+      animation: panelIn 0.3s ease;
+    }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .menu-cat {
+      font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+      color: #6a9ab8; font-family: Arial, sans-serif; font-weight: 700;
+      margin: 2rem 0 0.8rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--celeste);
+    }
+    .menu-cat:first-child { margin-top: 0; }
+    .menu-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.6rem 0; border-bottom: 1px dotted rgba(26,58,92,0.18); gap: 1rem;
+    }
+    .menu-row:last-child { border-bottom: none; }
+    .menu-name { color: var(--azul); font-size: 0.95rem; flex: 1; }
+    .menu-name.star::before { content: '★ '; color: var(--oro); }
+    .menu-price {
+      color: #555; font-size: 0.83rem;
+      font-family: Arial, sans-serif; white-space: nowrap;
+    }
+    .note {
+      background: rgba(168,196,216,0.18);
+      border-left: 3px solid var(--celeste);
+      padding: 1rem 1.2rem; margin-top: 1.5rem;
+      font-size: 0.88rem; color: #444; line-height: 1.6;
+    }
+    .note strong { color: var(--azul); }
+
+    /* ── RECOMENDADOS ── */
+    #recomendados { background: var(--azul); }
+    .recom-grid {
+      display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    @media (min-width: 640px) {
+      .recom-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .recom-card {
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.35);
+      padding: 2rem; transition: background 0.3s, border-color 0.3s;
+    }
+    .recom-card:hover {
+      background: rgba(0,0,0,0.45);
+      border-color: #fff;
+    }
+    .recom-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .recom-card h3 { color: #ffffff; font-size: 1.25rem; margin-bottom: 0.4rem; }
+    .recom-card p { color: #ffffff; font-size: 0.88rem; font-style: italic; margin-bottom: 1rem; }
+    .recom-price { color: var(--oro); font-family: Arial, sans-serif; font-size: 0.95rem; }
+
+    .anticipo-box {
+      border: 2px solid var(--oro); padding: 2.5rem;
+      max-width: 680px; margin: 0 auto;
+    }
+    .anticipo-box h3 {
+      color: var(--oro); font-size: 1.2rem;
+      margin-bottom: 0.4rem; letter-spacing: 1px;
+    }
+    .anticipo-box > p {
+      color: rgba(255,255,255,0.65); font-size: 0.88rem;
+      margin-bottom: 1.5rem; font-style: italic;
+    }
+    .anticipo-list { list-style: none; }
+    .anticipo-list li {
+      display: flex; justify-content: space-between;
+      padding: 0.75rem 0; border-bottom: 1px solid rgba(201,169,110,0.2);
+      color: #fff; font-size: 0.95rem;
+    }
+    .anticipo-list li:last-child { border-bottom: none; }
+    .anticipo-list li span { color: var(--oro); font-family: Arial, sans-serif; font-weight: 700; }
+
+    /* ── GALERÍA ── */
+    #galeria { padding: 0; }
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 640px) {
+      .galeria-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .gal-item { overflow: hidden; aspect-ratio: 1; }
+    .gal-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.55s ease, filter 0.55s;
+      filter: brightness(0.92);
+    }
+    .gal-item:hover img { transform: scale(1.08); filter: brightness(1.05); }
+
+    /* ── CONTACTO ── */
+    #contacto { background: var(--crema); }
+    .contacto-grid {
+      display: grid; grid-template-columns: 1fr; gap: 3rem;
+    }
+    @media (min-width: 768px) {
+      .contacto-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
+    }
+    .contact-block h3 {
+      color: var(--azul); font-size: 1.15rem;
+      padding-bottom: 0.75rem; margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--celeste);
+    }
+    .info-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start; }
+    .info-dot {
+      width: 38px; height: 38px; background: var(--azul);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 1rem; flex-shrink: 0;
+    }
+    .info-row strong {
+      display: block; font-size: 0.72rem; letter-spacing: 1.5px;
+      text-transform: uppercase; font-family: Arial, sans-serif;
+      color: var(--azul); margin-bottom: 0.2rem;
+    }
+    .info-row p { font-size: 0.95rem; color: #444; }
+
+    .ig-btn {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      background: linear-gradient(135deg, #405de6, #833ab4, #e1306c, #fd1d1d, #f77737, #fcaf45);
+      color: #fff; padding: 0.9rem 1.8rem; text-decoration: none;
+      border-radius: 3px; font-family: Arial, sans-serif;
+      font-weight: 700; font-size: 0.9rem; margin-top: 1.5rem;
+      transition: opacity 0.3s, transform 0.2s; letter-spacing: 0.5px;
+    }
+    .ig-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+    .ig-btn svg { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; }
+
+    .horarios-tbl { width: 100%; border-collapse: collapse; }
+    .horarios-tbl td {
+      padding: 0.65rem 0; border-bottom: 1px dotted rgba(26,58,92,0.15);
+      font-size: 0.93rem;
+    }
+    .horarios-tbl td:first-child { color: var(--azul); font-weight: 700; width: 45%; }
+    .horarios-tbl td:last-child { color: #555; }
+    .horarios-tbl tr:last-child td { border-bottom: none; }
+
+    .mapa-link {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      width: 100%; height: 240px; margin-top: 2rem;
+      background: linear-gradient(135deg, var(--azul), #2a5a8c);
+      color: #fff; text-align: center; text-decoration: none;
+      transition: opacity 0.25s; border-radius: 3px;
+    }
+    .mapa-link:hover { opacity: 0.88; }
+    .mapa-link svg { width: 36px; height: 36px; fill: var(--celeste); margin-bottom: 0.8rem; }
+    .mapa-link p { font-size: 1rem; font-weight: 700; }
+    .mapa-link small { color: var(--celeste); font-size: 0.82rem; margin-top: 0.3rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--azul-dark); color: rgba(255,255,255,0.55);
+      text-align: center; padding: 3rem 1.5rem;
+      font-size: 0.83rem; font-family: Arial, sans-serif;
+    }
+    .foot-logo {
+      font-family: 'Playfair Display', serif; font-size: 2rem;
+      color: var(--celeste); letter-spacing: 5px;
+      font-weight: 700; display: block; margin-bottom: 0.4rem;
+    }
+    .foot-tag { font-style: italic; margin-bottom: 1.8rem; }
+    .foot-links {
+      display: flex; justify-content: center; gap: 1.5rem;
+      flex-wrap: wrap; margin-bottom: 1.5rem;
+    }
+    .foot-links a {
+      color: rgba(255,255,255,0.45); text-decoration: none;
+      letter-spacing: 1px; text-transform: uppercase; font-size: 0.72rem;
+      transition: color 0.2s;
+    }
+    .foot-links a:hover { color: var(--celeste); }
+    .foot-sep {
+      border: none; border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 1.5rem auto; max-width: 280px;
+    }
+    .foot-ig { color: var(--celeste); text-decoration: none; }
+    .foot-ig:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <a href="#hero" class="nav-logo">
+      <img src="fotos/logo.png" alt="Secretito" height="50">
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Desde 2004 &nbsp;·&nbsp; Dorrego 2720</div>
+      <h1 class="hero-title">Secretito</h1>
+      <p class="hero-tagline">Cocina casera, sabores de siempre</p>
+      <a href="#menu" class="hero-cta">Ver la Carta</a>
+    </div>
+    <div class="hero-arrow">Scroll</div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section id="historia">
+    <div class="container">
+      <h2 class="section-title fade-up">Nuestra Historia</h2>
+      <div class="divider fade-up"></div>
+      <p class="section-sub fade-up">Más de 20 años cocinando con alma</p>
+      <div class="historia-grid">
+        <div class="fade-left">
+          <div class="historia-year">2004</div>
+          <div class="historia-text">
+            <p>Secretito nació con una promesa simple: cocinar como en casa, sin apuros, con los mejores ingredientes y el fuego como protagonista. Lo que empezó como un lugar para compartir se convirtió en un punto de encuentro para familias y amigos que buscan sabores auténticos.</p>
+            <p>Nuestra cocina combina lo mejor de la tradición argentina con el sabor del mar. La parrilla al carbón, las pastas amasadas cada día y los mariscos frescos son el alma de nuestra propuesta.</p>
+            <p>Más de dos décadas después, seguimos fieles a lo que nos dio identidad: la cocina de siempre, hecha con tiempo, dedicación y cariño.</p>
+            <div class="stats">
+              <div class="stat"><strong>+20</strong><span>Años de historia</span></div>
+              <div class="stat"><strong>3</strong><span>Especialidades únicas</span></div>
+              <div class="stat"><strong>100%</strong><span>Ingredientes frescos</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="historia-img fade-right">
+          <img src="fotos/SaveClip.App_625677801_18133396930453683_8730200488881567479_n.jpg"
+               alt="Secretito restaurante" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESPECIALIDADES -->
+  <section id="especialidades">
+    <div class="container">
+      <h2 class="section-title light fade-up">Nuestras Especialidades</h2>
+      <div class="divider gold fade-up"></div>
+      <p class="section-sub light fade-up">Tres pasiones, una sola cocina</p>
+      <div class="espec-grid">
+
+        <div class="espec-card fade-up">
+          <img src="fotos/SaveClip.App_640378562_18570502930020138_2752174928391026683_n.jpg"
+               alt="Parrilla al Carbón" loading="lazy">
+          <div class="espec-overlay">
+            <div class="espec-icon">🔥</div>
+            <h3>Parrilla al Carbón</h3>
+            <p>Cortes seleccionados asados al momento con maestría. Del chorizo al costillar, cada pieza es una obra.</p>
+          </div>
+        </div>
+
+        <div class="espec-card fade-up" style="transition-delay:.15s">
+          <img src="fotos/SaveClip.App_651039538_18101386853501292_8924350196762242750_n.jpg"
+               alt="Mariscos Frescos" loading="lazy">
+          <div class="espec-overlay">
+            <div class="espec-icon">🦐</div>
+            <h3>Mariscos Frescos</h3>
+            <p>Del mar a tu mesa. Langostinos, mejillones, rabas y cazuelas con salsas de la casa.</p>
+          </div>
+        </div>
+
+        <div class="espec-card fade-up" style="transition-delay:.3s">
+          <img src="fotos/SaveClip.App_119103144_2634946203425654_7185099407801864148_n.jpg"
+               alt="Pastas Caseras" loading="lazy">
+          <div class="espec-overlay">
+            <div class="espec-icon">🍝</div>
+            <h3>Pastas Caseras</h3>
+            <p>Amasadas cada día. Cintas al huevo, sorrentinos, raviolones y más, con salsas que completan el plato.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MENÚ -->
+  <section id="menu">
+    <div class="container">
+      <h2 class="section-title fade-up">Nuestra Carta</h2>
+      <div class="divider fade-up"></div>
+      <p class="section-sub fade-up">Toda la propuesta de Secretito</p>
+
+      <div class="menu-tabs fade-up">
+        <button class="tab-btn active" onclick="showTab('parrilla',this)">Parrilla</button>
+        <button class="tab-btn"        onclick="showTab('mar',this)">Del Mar</button>
+        <button class="tab-btn"        onclick="showTab('pastas',this)">Pastas</button>
+        <button class="tab-btn"        onclick="showTab('minutas',this)">Minutas</button>
+        <button class="tab-btn"        onclick="showTab('guarni',this)">Guarniciones</button>
+      </div>
+
+      <!-- PARRILLA -->
+      <div class="menu-panel active" id="tab-parrilla">
+        <div class="menu-cat">Entradas de Parrilla</div>
+        <div class="menu-row"><span class="menu-name">Provoleta Fugazzeta</span></div>
+        <div class="menu-row"><span class="menu-name">Provoleta a las Brasas</span></div>
+        <div class="menu-row"><span class="menu-name">Provoleta</span></div>
+        <div class="menu-row"><span class="menu-name">Chorizo</span></div>
+        <div class="menu-row"><span class="menu-name">Morcilla</span></div>
+        <div class="menu-row"><span class="menu-name">Chinchulines</span></div>
+
+        <div class="menu-cat">Cortes Seleccionados</div>
+        <div class="menu-row"><span class="menu-name">Mollejas de Corazón</span></div>
+        <div class="menu-row"><span class="menu-name">Matambre Arrollado</span></div>
+        <div class="menu-row"><span class="menu-name">Pechuga Deshuesada</span></div>
+        <div class="menu-row"><span class="menu-name">Bife de Chorizo</span></div>
+        <div class="menu-row"><span class="menu-name">Entraña</span></div>
+        <div class="menu-row"><span class="menu-name">Ojo de Bife</span></div>
+        <div class="menu-row"><span class="menu-name">Asado de Tira</span></div>
+
+        <div class="menu-cat">★ Recomendados de la Casa</div>
+        <div class="menu-row"><span class="menu-name star">Vacío Mantecoso</span></div>
+        <div class="menu-row"><span class="menu-name star">Exquisito Costillar</span></div>
+      </div>
+
+      <!-- MAR -->
+      <div class="menu-panel" id="tab-mar">
+        <div class="menu-cat">Entradas de Mar</div>
+        <div class="menu-row"><span class="menu-name">Cornalitos</span></div>
+        <div class="menu-row"><span class="menu-name">Mejillones Provenzal</span></div>
+        <div class="menu-row"><span class="menu-name">Mejillones Parmesana</span></div>
+        <div class="menu-row"><span class="menu-name">Langostinos Empanados</span></div>
+        <div class="menu-row"><span class="menu-name">Langostinos al Ajillo</span></div>
+        <div class="menu-row"><span class="menu-name">Rabas</span></div>
+        <div class="menu-row"><span class="menu-name">½ Rabas</span></div>
+
+        <div class="menu-cat">Especialidades de Mar</div>
+        <div class="menu-row"><span class="menu-name">Arroz con Mariscos</span></div>
+        <div class="menu-row"><span class="menu-name">Merluzón al Gusto con Guarnición</span></div>
+        <div class="menu-row"><span class="menu-name">Cazuela de Mariscos</span></div>
+        <div class="menu-row"><span class="menu-name">Salmón Rosado al Gusto con Guarnición</span></div>
+
+        <div class="note">
+          <strong>Salsas para mariscos:</strong> Vizcaína · Puerro · Verdeo · A la Gallega
+        </div>
+      </div>
+
+      <!-- PASTAS -->
+      <div class="menu-panel" id="tab-pastas">
+        <div class="menu-cat">Pastas Caseras y Salsas a Elección</div>
+        <div class="menu-row"><span class="menu-name">Cintas Caseras al Huevo</span></div>
+        <div class="menu-row"><span class="menu-name">Ñoquis</span></div>
+        <div class="menu-row"><span class="menu-name">Pappardelle</span></div>
+        <div class="menu-row"><span class="menu-name">Cintas Negras</span></div>
+        <div class="menu-row"><span class="menu-name">Sorrentinos (mozzarella y jamón)</span></div>
+        <div class="menu-row"><span class="menu-name">Raviolones (verdura o ricota)</span></div>
+        <div class="menu-row"><span class="menu-name">Fusiles</span></div>
+        <div class="menu-row"><span class="menu-name">Raviolones de Salmón</span></div>
+
+        <div class="note">
+          <strong>Sin recargo:</strong> Fileto · Blanca · Mixta<br>
+          <strong>Con recargo:</strong> Scarparo · Checa · Parissien · Bolognesa · 4 Quesos · Pesto · Crema<br>
+          <strong>Con recargo:</strong> Salseado de Langostinos · Salseado de Mejillones
+        </div>
+      </div>
+
+      <!-- MINUTAS -->
+      <div class="menu-panel" id="tab-minutas">
+        <div class="menu-cat">Minutas — Clásicos de la Casa</div>
+        <div class="menu-row"><span class="menu-name">Empanada de Lomo</span></div>
+        <div class="menu-row"><span class="menu-name">Tortilla (papa / cebolla)</span></div>
+        <div class="menu-row"><span class="menu-name">Tortilla Española</span></div>
+        <div class="menu-row"><span class="menu-name">Omelette (jamón y queso)</span></div>
+        <div class="menu-row"><span class="menu-name">Revuelto Gramajo</span></div>
+        <div class="menu-row"><span class="menu-name">Espinaca a la Crema</span></div>
+        <div class="menu-row"><span class="menu-name">Brócoli Salteado</span></div>
+        <div class="menu-row"><span class="menu-name">Milanesa de Lomo</span></div>
+        <div class="menu-row"><span class="menu-name">Suprema de Pollo</span></div>
+        <div class="menu-row"><span class="menu-name">Escalope de Lomo (al gusto c/guarnición)</span></div>
+        <div class="note" style="margin-top:1.2rem">
+          <strong>Recargos disponibles:</strong> Suiza · Napolitana
+        </div>
+      </div>
+
+      <!-- GUARNICIONES -->
+      <div class="menu-panel" id="tab-guarni">
+        <div class="menu-cat">Guarniciones</div>
+        <div class="menu-row"><span class="menu-name">Papas Fritas / Españolas / Pay / Rejilla</span></div>
+        <div class="menu-row"><span class="menu-name">Puré de Papas</span></div>
+        <div class="menu-row"><span class="menu-name">Puré de Calabaza</span></div>
+        <div class="menu-row"><span class="menu-name">Puré Mixto</span></div>
+        <div class="menu-row"><span class="menu-name">Ensalada de Rúcula y Parmesano</span></div>
+        <div class="menu-row"><span class="menu-name">Ensalada a Elección</span></div>
+        <div class="menu-row"><span class="menu-name">Ensalada Rusa</span></div>
+        <div class="menu-row"><span class="menu-name">Arroz Amarillo</span></div>
+        <div class="menu-row"><span class="menu-name">Huevos Fritos (2)</span></div>
+        <div class="menu-row"><span class="menu-name">Recargo Provenzal</span></div>
+        <div class="note" style="margin-top:1.2rem">
+          <strong>Servicio de mesa:</strong> por persona
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RECOMENDADOS -->
+  <section id="recomendados">
+    <div class="container">
+      <h2 class="section-title light fade-up">Recomendados de la Casa</h2>
+      <div class="divider gold fade-up"></div>
+      <p class="section-sub light fade-up">Los preferidos de nuestros comensales</p>
+
+      <div class="recom-grid">
+        <div class="recom-card fade-up">
+          <div class="recom-icon">🥩</div>
+          <h3>Vacío Mantecoso</h3>
+          <p>Jugoso, tierno y con ese punto perfecto que solo da el carbón. El plato más pedido de la casa.</p>
+        </div>
+        <div class="recom-card fade-up" style="transition-delay:.15s">
+          <div class="recom-icon">🔥</div>
+          <h3>Exquisito Costillar</h3>
+          <p>Lento, con costra dorada y carne que se separa sola del hueso. Una experiencia única.</p>
+        </div>
+      </div>
+
+      <div class="anticipo-box fade-up">
+        <h3>📋 Pedidos con Anticipación</h3>
+        <p>Para los cortes más grandes, reservá con tiempo para asegurarte el tuyo.</p>
+        <ul class="anticipo-list">
+          <li>Costillar Entero (8 kg)</li>
+          <li>½ Costillar Entero</li>
+          <li>Vacío Entero (4 kg)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section id="galeria">
+    <div class="galeria-grid">
+      <div class="gal-item"><img src="fotos/SaveClip.App_655792893_18324994546265205_7565004091590454193_n.jpg"   alt="Secretito" loading="lazy"></div>
+      <div class="gal-item"><img src="fotos/SaveClip.App_643149109_18057945281439262_940699633473445007_n.jpg"    alt="Secretito" loading="lazy"></div>
+      <div class="gal-item"><img src="fotos/SaveClip.App_649810368_18095894692820700_1404100552889630142_n.jpg"   alt="Secretito" loading="lazy"></div>
+      <div class="gal-item"><img src="fotos/SaveClip.App_648735722_18084923429586331_4547026138751602420_n.jpg"   alt="Secretito" loading="lazy"></div>
+      <div class="gal-item"><img src="fotos/SaveClip.App_651579490_18062069423690933_2940317730889787237_n.jpg"   alt="Secretito" loading="lazy"></div>
+      <div class="gal-item"><img src="fotos/SaveClip.App_650345189_18096687025963957_763775382215397102_n.jpg"    alt="Secretito" loading="lazy"></div>
+      <div class="gal-item"><img src="fotos/SaveClip.App_648141123_18093254033016127_3783143152791780381_n.jpg"   alt="Secretito" loading="lazy"></div>
+      <div class="gal-item"><img src="fotos/SaveClip.App_651897530_18124693525505543_7390382471674195301_n.jpg"   alt="Secretito" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <h2 class="section-title fade-up">Dónde Encontrarnos</h2>
+      <div class="divider fade-up"></div>
+      <p class="section-sub fade-up">Reservas y consultas por Instagram</p>
+
+      <div class="contacto-grid">
+
+        <div class="contact-block fade-left">
+          <h3>Información</h3>
+
+          <div class="info-row">
+            <div class="info-dot">📍</div>
+            <div>
+              <strong>Dirección</strong>
+              <p>Dorrego 2720</p>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-dot">🕐</div>
+            <div>
+              <strong>Horarios</strong>
+              <p>Martes a Sábados<br>12:00 – 15:00 hs &nbsp;/&nbsp; 19:30 – 20:00 hs</p>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-dot">🍽️</div>
+            <div>
+              <strong>Servicio de Mesa</strong>
+              <p>Consultanos</p>
+            </div>
+          </div>
+
+          <a href="https://www.instagram.com/parrisecretito" target="_blank" rel="noopener" class="ig-btn">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+            @parrisecretito
+          </a>
+        </div>
+
+        <div class="fade-right">
+          <div class="contact-block">
+            <h3>Horarios</h3>
+            <table class="horarios-tbl">
+              <tr><td>Lunes</td><td>Cerrado</td></tr>
+              <tr><td>Martes – Viernes</td><td>12:00–15:00 / 19:30–20:00</td></tr>
+              <tr><td>Sábado</td><td>12:00–15:00 / 19:30–20:00</td></tr>
+              <tr><td>Domingo</td><td>Cerrado</td></tr>
+            </table>
+          </div>
+
+          <a href="https://maps.google.com/?q=Dorrego+2720" target="_blank" rel="noopener" class="mapa-link">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C7.802 0 4 3.403 4 7.602 4 11.8 7.469 16.812 12 24c4.531-7.188 8-12.2 8-16.398C20 3.403 16.199 0 12 0zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
+            </svg>
+            <p>Dorrego 2720</p>
+            <small>Ver en Google Maps →</small>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="foot-logo">Secretito</span>
+    <p class="foot-tag">Cocina casera, sabores de siempre &nbsp;·&nbsp; Desde 2004</p>
+    <nav class="foot-links">
+      <a href="#historia">Historia</a>
+      <a href="#especialidades">Especialidades</a>
+      <a href="#menu">Carta</a>
+      <a href="#recomendados">Recomendados</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <hr class="foot-sep">
+    <p>© 2026 Restaurante Secretito &nbsp;·&nbsp; Dorrego 2720 &nbsp;·&nbsp;
+      <a href="https://www.instagram.com/parrisecretito" target="_blank" rel="noopener" class="foot-ig">@parrisecretito</a>
+    </p>
+  </footer>
+
+  <script>
+    // ── NAV scroll ──
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+
+    // ── Parallax hero ──
+    const heroBg = document.getElementById('hero-bg');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < window.innerHeight) {
+        heroBg.style.transform = 'translateY(' + (window.scrollY * 0.28) + 'px)';
+      }
+    }, { passive: true });
+
+    // ── Scroll animations ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(el => observer.observe(el));
+
+    // ── Menu tabs ──
+    function showTab(id, btn) {
+      document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
