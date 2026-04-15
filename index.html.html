@@ -115,6 +115,15 @@
       transition: background 0.3s, color 0.3s;
     }
     .hero-cta:hover { background: var(--celeste); color: var(--azul); }
+    .carta-btn {
+      display: inline-block;
+      background: var(--oro); color: var(--azul);
+      padding: 0.75rem 2rem; text-decoration: none;
+      font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+      font-family: Arial, sans-serif; font-weight: 700;
+      transition: background 0.3s, color 0.3s;
+    }
+    .carta-btn:hover { background: #b8922a; color: #fff; }
     .hero-arrow {
       position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
@@ -428,6 +437,7 @@
       <h1 class="hero-title">Secretito</h1>
       <p class="hero-tagline">Cocina casera, sabores de siempre</p>
       <a href="#menu" class="hero-cta">Ver la Carta</a>
+      <a href="carta.pdf" target="_blank" rel="noopener" class="carta-btn" style="margin-left:1rem">Ver Carta Completa</a>
     </div>
     <div class="hero-arrow">Scroll</div>
   </section>
@@ -472,7 +482,7 @@
           <img src="fotos/SaveClip.App_640378562_18570502930020138_2752174928391026683_n.jpg"
                alt="Parrilla al Carbón" loading="lazy">
           <div class="espec-overlay">
-            <div class="espec-icon">🔥</div>
+
             <h3>Parrilla al Carbón</h3>
             <p>Cortes seleccionados asados al momento con maestría. Del chorizo al costillar, cada pieza es una obra.</p>
           </div>
@@ -482,7 +492,7 @@
           <img src="fotos/SaveClip.App_651039538_18101386853501292_8924350196762242750_n.jpg"
                alt="Mariscos Frescos" loading="lazy">
           <div class="espec-overlay">
-            <div class="espec-icon">🦐</div>
+
             <h3>Mariscos Frescos</h3>
             <p>Del mar a tu mesa. Langostinos, mejillones, rabas y cazuelas con salsas de la casa.</p>
           </div>
@@ -492,7 +502,7 @@
           <img src="fotos/SaveClip.App_119103144_2634946203425654_7185099407801864148_n.jpg"
                alt="Pastas Caseras" loading="lazy">
           <div class="espec-overlay">
-            <div class="espec-icon">🍝</div>
+
             <h3>Pastas Caseras</h3>
             <p>Amasadas cada día. Cintas al huevo, sorrentinos, raviolones y más, con salsas que completan el plato.</p>
           </div>
@@ -508,6 +518,9 @@
       <h2 class="section-title fade-up">Nuestra Carta</h2>
       <div class="divider fade-up"></div>
       <p class="section-sub fade-up">Toda la propuesta de Secretito</p>
+      <div class="fade-up" style="text-align:center;margin-bottom:2rem">
+        <a href="carta.pdf" target="_blank" rel="noopener" class="carta-btn">Ver Carta Completa</a>
+      </div>
 
       <div class="menu-tabs fade-up">
         <button class="tab-btn active" onclick="showTab('parrilla',this)">Parrilla</button>
@@ -630,13 +643,11 @@
 
       <div class="recom-grid">
         <div class="recom-card fade-up">
-          <div class="recom-icon">🥩</div>
-          <h3>Vacío Mantecoso</h3>
+          <h3><span style="color:var(--oro)">★</span> Vacío Mantecoso</h3>
           <p>Tierno y con ese punto perfecto que solo da el carbón.</p>
         </div>
         <div class="recom-card fade-up" style="transition-delay:.15s">
-          <div class="recom-icon">🔥</div>
-          <h3>Exquisito Costillar</h3>
+          <h3><span style="color:var(--oro)">★</span> Exquisito Costillar</h3>
           <p>Lento, con costra dorada y carne que se separa sola del hueso. Una experiencia única.</p>
         </div>
       </div>
@@ -674,7 +685,7 @@
     <div class="container">
       <h2 class="section-title fade-up">Dónde Encontrarnos</h2>
       <div class="divider fade-up"></div>
-      <p class="section-sub fade-up">Reservas y consultas por Instagram</p>
+      <p class="section-sub fade-up">Reservas y consultas por teléfono</p>
 
       <div class="contacto-grid">
 
@@ -686,6 +697,14 @@
             <div>
               <strong>Dirección</strong>
               <p>Dorrego 2720</p>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-dot">📞</div>
+            <div>
+              <strong>Teléfonos</strong>
+              <p>4777-8351<br>4773-8464</p>
             </div>
           </div>
 
