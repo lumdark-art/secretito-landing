@@ -91,13 +91,13 @@
     }
 
     /* ── NAV ── */
-    nav {
+    #main-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
       padding: 1rem 2rem;
       transition: background 0.35s, box-shadow 0.35s;
     }
-    nav.scrolled {
+    #main-nav.scrolled {
       background: var(--azul);
       box-shadow: 0 2px 20px rgba(0,0,0,0.35);
     }
@@ -112,8 +112,8 @@
     }
     .nav-toggle, .nav-links { display: none; }
     @media (max-width: 768px) {
-      nav { padding: 0.75rem 1rem; flex-wrap: wrap; }
-      nav.open { background: var(--azul); box-shadow: 0 2px 20px rgba(0,0,0,0.35); }
+      #main-nav { padding: 0.75rem 1rem; flex-wrap: wrap; }
+      #main-nav.open { background: var(--azul); box-shadow: 0 2px 20px rgba(0,0,0,0.35); }
       section[id] { scroll-margin-top: 64px; }
       .nav-toggle {
         display: flex; flex-direction: column; justify-content: center; gap: 5px;
@@ -123,11 +123,11 @@
         display: block; height: 2px; background: #fff; border-radius: 2px;
         transition: transform 0.3s, opacity 0.3s;
       }
-      nav.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-      nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
-      nav.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      #main-nav.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      #main-nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
+      #main-nav.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
       .nav-links { display: none; flex-direction: column; width: 100%; padding: 0.5rem 0 0.75rem; }
-      nav.open .nav-links { display: flex; }
+      #main-nav.open .nav-links { display: flex; }
       .nav-links a {
         color: #fff; text-decoration: none; padding: 0.85rem 0.25rem;
         font-family: Arial, sans-serif; font-size: 0.85rem; letter-spacing: 2px;
@@ -253,10 +253,10 @@
       font-size: 0.78rem; color: #777;
       font-family: Arial, sans-serif; letter-spacing: 0.5px;
     }
-    .historia-img { position: relative; }
+    .historia-img { position: relative; padding: 15px; }
     .historia-img::before {
       content: ''; position: absolute;
-      top: -13px; left: -13px; right: 13px; bottom: 13px;
+      top: 0; left: 0; right: 0; bottom: 0;
       border: 3px solid var(--celeste); z-index: 0;
     }
     .historia-img img {
