@@ -110,6 +110,30 @@
     @media (max-width: 480px) {
       .nav-logo img { height: 38px; }
     }
+    .nav-toggle, .nav-links { display: none; }
+    @media (max-width: 768px) {
+      nav { padding: 0.75rem 1rem; flex-wrap: wrap; }
+      nav.open { background: var(--azul); box-shadow: 0 2px 20px rgba(0,0,0,0.35); }
+      section[id] { scroll-margin-top: 64px; }
+      .nav-toggle {
+        display: flex; flex-direction: column; justify-content: center; gap: 5px;
+        width: 44px; height: 44px; padding: 10px; background: none; border: 0; cursor: pointer;
+      }
+      .nav-toggle span {
+        display: block; height: 2px; background: #fff; border-radius: 2px;
+        transition: transform 0.3s, opacity 0.3s;
+      }
+      nav.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
+      nav.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .nav-links { display: none; flex-direction: column; width: 100%; padding: 0.5rem 0 0.75rem; }
+      nav.open .nav-links { display: flex; }
+      .nav-links a {
+        color: #fff; text-decoration: none; padding: 0.85rem 0.25rem;
+        font-family: Arial, sans-serif; font-size: 0.85rem; letter-spacing: 2px;
+        text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.2);
+      }
+    }
 
     /* ── HERO ── */
     #hero {
@@ -399,6 +423,7 @@
       color: var(--azul); margin-bottom: 0.2rem;
     }
     .info-row p { font-size: 0.95rem; color: #444; }
+    .tel-link { color: inherit; text-decoration: none; }
 
     .ig-btn {
       display: inline-flex; align-items: center; gap: 0.75rem;
@@ -470,6 +495,16 @@
     <a href="#hero" class="nav-logo">
       <img src="fotos/logo.png" alt="Secretito" height="50">
     </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="#historia">Historia</a>
+      <a href="#especialidades">Especialidades</a>
+      <a href="#menu">Carta</a>
+      <a href="#recomendados">Recomendados</a>
+      <a href="#contacto">Contacto</a>
+    </div>
   </nav>
 
   <!-- HERO -->
@@ -705,6 +740,9 @@
           <li>Cochinillo (4 kg)</li>
           <li>Lechoncito (8 kg)</li>
         </ul>
+        <div style="text-align:center; margin-top:1.75rem;">
+          <a href="tel:+541147778351" class="carta-btn">Llamar para encargar</a>
+        </div>
       </div>
     </div>
   </section>
@@ -747,7 +785,7 @@
             <div class="info-dot">📞</div>
             <div>
               <strong>Teléfono</strong>
-              <p>4777-8351</p>
+              <p><a href="tel:+541147778351" class="tel-link">4777-8351</a></p>
             </div>
           </div>
 
@@ -778,7 +816,7 @@
             </table>
           </div>
 
-          <a href="https://maps.google.com/?q=Dorrego+2720" target="_blank" rel="noopener" class="mapa-link">
+          <a href="https://www.google.com/maps/search/?api=1&query=Av.+Dorrego+2720,+Palermo,+Buenos+Aires,+Argentina" target="_blank" rel="noopener" class="mapa-link">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 0C7.802 0 4 3.403 4 7.602 4 11.8 7.469 16.812 12 24c4.531-7.188 8-12.2 8-16.398C20 3.403 16.199 0 12 0zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/>
             </svg>
@@ -815,6 +853,14 @@
       nav.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
 
+    // ── NAV hamburguesa (mobile) ──
+    const navToggle = document.getElementById('nav-toggle');
+    function setNav(open) {
+      nav.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', open);
+    }
+    navToggle.addEventListener('click', () => setNav(!nav.classList.contains('open')));
+    document.querySelectorAll('#nav-links a').forEach(a => a.addEventListener('click', () => setNav(false)));
 
     // ── Parallax hero ──
     const heroBg = document.getElementById('hero-bg');
